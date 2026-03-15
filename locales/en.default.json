@@ -8,6 +8,16 @@
  * ------------------------------------------------------------
  */
 {
+  "sections": {
+    "announcement_bar": {
+      "name": "Announcement bar"
+    }
+  },
+  "labels": {
+    "text": "Text",
+    "background_color": "Background color",
+    "text_color": "Text color"
+  },
   "404": {
     "title": "404",
     "not_found": "Page not found.",
