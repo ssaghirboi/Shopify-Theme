@@ -1,0 +1,96 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "video_url": "",
+        "subtitle": "Sleep Tech for a Better Morning",
+        "title": "Wake Up to Your Best Self",
+        "description": "Silent alarms, blackout masks, and breathing strips engineered for deeper sleep and better mornings.",
+        "button_text": "SHOP THE COLLECTION",
+        "button_url": "",
+        "show_rating": true,
+        "rating_text": "4.9 Excellent"
+      }
+    },
+    "badge-marquee": {
+      "type": "badge-marquee",
+      "blocks": {
+        "badge-1": {
+          "type": "badge",
+          "settings": {
+            "text": "Award Winning",
+            "icon": "trophy"
+          }
+        },
+        "badge-2": {
+          "type": "badge",
+          "settings": {
+            "text": "Quality Assured",
+            "icon": "shield"
+          }
+        },
+        "badge-3": {
+          "type": "badge",
+          "settings": {
+            "text": "Thousands Sold",
+            "icon": "bag"
+          }
+        }
+      },
+      "block_order": [
+        "badge-1",
+        "badge-2",
+        "badge-3"
+      ],
+      "settings": {}
+    },
+    "text-block": {
+      "type": "text-block",
+      "settings": {
+        "title": "Better Sleep, Backed by Science",
+        "description": "SleepRizer combines smart wearable technology with proven sleep solutions to help you fall asleep faster, breathe easier, and wake up refreshed. We're committed to making better mornings simple, effective, and accessible to all."
+      }
+    },
+    "featured-products": {
+      "type": "featured-products",
+      "settings": {
+        "product": "",
+        "fallback_title": "Silent Alarm Wristband",
+        "custom_description": "Wake up gently with a silent vibrating alarm that won't disturb your partner. Lightweight, comfortable, and designed for the deepest sleepers.",
+        "button_text": "Add To Cart",
+        "subtext": "Free shipping across USA & Canada",
+        "show_rating": true,
+        "review_count": "312"
+      }
+    },
+    "bundle-offers": {
+      "type": "bundle-offers",
+      "settings": {
+        "heading": "Buy More and Save",
+        "bundle_product_1": "wakestrips",
+        "bundle_savings_1": "",
+        "bundle_product_2": "wakestrips",
+        "bundle_savings_2": "",
+        "bundle_product_3": "therizemask",
+        "bundle_savings_3": ""
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "badge-marquee",
+    "text-block",
+    "featured-products",
+    "bundle-offers"
+  ]
+}

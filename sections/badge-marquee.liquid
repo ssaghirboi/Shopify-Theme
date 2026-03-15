@@ -1,0 +1,135 @@
+<div class="badge-marquee full-width">
+  <div class="badge-marquee__track">
+    {% assign icon_render = '' %}
+    {% capture badge_set %}
+      {% for block in section.blocks %}
+        <span class="badge-marquee__item">
+          {% case block.settings.icon %}
+            {% when 'trophy' %}
+              <svg class="badge-marquee__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+            {% when 'shield' %}
+              <svg class="badge-marquee__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            {% when 'bag' %}
+              <svg class="badge-marquee__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            {% when 'star' %}
+              <svg class="badge-marquee__icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            {% when 'heart' %}
+              <svg class="badge-marquee__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            {% when 'truck' %}
+              <svg class="badge-marquee__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11"/><path d="M14 9h4l4 4v4c0 .6-.4 1-1 1h-2"/><circle cx="7" cy="18" r="2"/><path d="M15 18H9"/><circle cx="17" cy="18" r="2"/></svg>
+            {% else %}
+              <svg class="badge-marquee__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          {% endcase %}
+          {{ block.settings.text }}
+          <span class="badge-marquee__dot"></span>
+        </span>
+      {% endfor %}
+    {% endcapture %}
+    {{ badge_set }}
+    {{ badge_set }}
+    {{ badge_set }}
+    {{ badge_set }}
+  </div>
+</div>
+
+{% stylesheet %}
+  .badge-marquee {
+    background-color: #fff;
+    color: #1a1a1a;
+    overflow: hidden;
+    padding: 28px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+  }
+
+  .badge-marquee__track {
+    display: flex;
+    white-space: nowrap;
+    animation: badge-scroll 25s linear infinite;
+    width: max-content;
+  }
+
+  .badge-marquee__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 0 1.5rem;
+  }
+
+  .badge-marquee__dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin-left: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .badge-marquee__icon {
+    flex-shrink: 0;
+    opacity: 0.8;
+  }
+
+  @keyframes badge-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-25%);
+    }
+  }
+
+  .badge-marquee:hover .badge-marquee__track {
+    animation-play-state: paused;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Badge Marquee",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Badge Text",
+          "default": "Badge text"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "check",
+          "options": [
+            { "value": "check", "label": "Checkmark" },
+            { "value": "trophy", "label": "Trophy" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "bag", "label": "Shopping Bag" },
+            { "value": "star", "label": "Star" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "truck", "label": "Truck" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Badge Marquee",
+      "blocks": [
+        { "type": "badge", "settings": { "text": "Award Winning", "icon": "trophy" } },
+        { "type": "badge", "settings": { "text": "Quality Assured", "icon": "shield" } },
+        { "type": "badge", "settings": { "text": "Thousands Sold", "icon": "bag" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

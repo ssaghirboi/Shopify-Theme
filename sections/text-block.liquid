@@ -1,0 +1,54 @@
+<section class="text-block">
+  <h2 class="text-block__title">{{ section.settings.title }}</h2>
+  {% if section.settings.description != blank %}
+    <p class="text-block__description">{{ section.settings.description }}</p>
+  {% endif %}
+</section>
+
+{% stylesheet %}
+  .text-block {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 72px 24px;
+  }
+
+  .text-block__title {
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+  }
+
+  .text-block__description {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #444;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Text Block",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Your Heading Here"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Add a description here."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text Block"
+    }
+  ]
+}
+{% endschema %}

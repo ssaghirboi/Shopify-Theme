@@ -1,0 +1,43 @@
+<section class="donkey-section">
+  <div class="donkey-container">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Donkey_in_Clovelly%2C_North_Devon%2C_England.jpg/1280px-Donkey_in_Clovelly%2C_North_Devon%2C_England.jpg"
+      alt="A donkey"
+      width="600"
+      loading="lazy"
+    >
+  </div>
+</section>
+
+{% stylesheet %}
+  .donkey-section {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .donkey-container {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .donkey-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Donkey Image",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Donkey Image",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,245 @@
+<section class="hero full-width">
+  {% if section.settings.video_url != blank %}
+    <video
+      class="hero__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="{% if section.settings.image %}{{ section.settings.image | image_url: width: 1920 }}{% endif %}"
+    >
+      <source src="{{ section.settings.video_url }}" type="video/mp4">
+    </video>
+  {% elsif section.settings.shopify_video %}
+    {{ section.settings.shopify_video | video_tag:
+      autoplay: true,
+      muted: true,
+      loop: true,
+      playsinline: true,
+      class: 'hero__video'
+    }}
+  {% elsif section.settings.image %}
+    <img
+      class="hero__image"
+      src="{{ section.settings.image | image_url: width: 1920 }}"
+      alt="{{ section.settings.image.alt | escape }}"
+      loading="eager"
+      width="1920"
+      height="900"
+    >
+  {% endif %}
+
+  <div class="hero__overlay"></div>
+
+  <div class="hero__content">
+    {% if section.settings.subtitle != blank %}
+      <p class="hero__subtitle">{{ section.settings.subtitle }}</p>
+    {% endif %}
+
+    <h1 class="hero__title">{{ section.settings.title }}</h1>
+
+    {% if section.settings.description != blank %}
+      <p class="hero__description">{{ section.settings.description }}</p>
+    {% endif %}
+
+    {% if section.settings.button_text != blank %}
+      <a href="{{ section.settings.button_url }}" class="hero__button">
+        {{ section.settings.button_text }}
+      </a>
+    {% endif %}
+
+    {% if section.settings.show_rating %}
+      <div class="hero__rating">
+        <span class="hero__stars">★★★★★</span>
+        <span class="hero__rating-text">{{ section.settings.rating_text }}</span>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 85vh;
+    overflow: hidden;
+    background-color: #1a1a2e;
+  }
+
+  .hero__video,
+  .hero__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+    z-index: 2;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: #fff;
+    max-width: 700px;
+    padding: 40px 24px;
+  }
+
+  .hero__subtitle {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+    opacity: 0.85;
+  }
+
+  .hero__title {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .hero__description {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin-bottom: 32px;
+    max-width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero__button {
+    display: inline-block;
+    background-color: #fff;
+    color: #000;
+    padding: 16px 40px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  .hero__button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+  }
+
+  .hero__rating {
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .hero__stars {
+    color: #f5c518;
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  .hero__rating-text {
+    font-size: 14px;
+    opacity: 0.85;
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      min-height: 70vh;
+    }
+
+    .hero__button {
+      padding: 14px 32px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background Media"
+    },
+    {
+      "type": "video",
+      "id": "shopify_video",
+      "label": "Video (upload)",
+      "info": "Upload a video directly to Shopify. This takes priority over an external URL."
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video URL (external)",
+      "info": "Direct link to an .mp4 file. Used if no Shopify video is uploaded."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Fallback Image",
+      "info": "Shown while video loads, or if no video is set."
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Trusted by 25,000+ Customers"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Radiant Skin Powered by Light"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Professional-grade LED mask for smoother, firmer, younger-looking skin."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "GET STARTED TODAY"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Rating",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating Text",
+      "default": "4.9 Excellent"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}
