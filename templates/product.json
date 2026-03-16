@@ -12,9 +12,43 @@
     "main": {
       "type": "product",
       "settings": {}
+    },
+    "reviews": {
+      "type": "reviews",
+      "blocks": {
+        "review-1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "This product changed my sleep completely. Best purchase I've made all year!",
+            "author": "Sarah M."
+          }
+        },
+        "review-2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "Super comfortable and fast delivery. Will definitely be ordering again.",
+            "author": "James T."
+          }
+        },
+        "review-3": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "review_text": "Great quality for the price. I sleep so much better now.",
+            "author": "Priya K."
+          }
+        }
+      },
+      "block_order": ["review-1", "review-2", "review-3"],
+      "settings": {
+        "title": "What our customers say"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "reviews"
   ]
 }

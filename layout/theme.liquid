@@ -27,10 +27,23 @@
   </head>
 
   <body>
+    {% section 'promo-marquee' %}
     {% sections 'header-group' %}
 
     {{ content_for_layout }}
 
     {% sections 'footer-group' %}
+    {% if template == 'index' %}
+      <script>
+        window.addEventListener('load', function () {
+          var target = document.getElementById('sleep-quote');
+          if (target) {
+            setTimeout(function () {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+          }
+        });
+      </script>
+    {% endif %}
   </body>
 </html>

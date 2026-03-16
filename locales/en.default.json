@@ -11,12 +11,41 @@
   "sections": {
     "announcement_bar": {
       "name": "Announcement bar"
+    },
+    "promo_marquee": {
+      "item_1": "Limited time sale — Don't miss out",
+      "item_2": "Free shipping on all orders",
+      "item_3": "Shop now before it ends",
+      "item_4": "Up to 30% off sitewide"
+    },
+    "footer": {
+      "products_heading": "Products",
+      "company_heading": "Company",
+      "view_all": "View all products",
+      "about_us": "About us",
+      "about_us_page": "About us page",
+      "rights_reserved": "All rights reserved."
+    },
+    "reviews": {
+      "name": "Reviews",
+      "blocks": {
+        "review": {
+          "name": "Review",
+          "rating": "Star rating",
+          "review_text": "Review text",
+          "author": "Customer name"
+        }
+      }
     }
   },
   "labels": {
     "text": "Text",
+    "title": "Title",
+    "tagline": "Tagline",
+    "menu": "Menu",
     "background_color": "Background color",
-    "text_color": "Text color"
+    "text_color": "Text color",
+    "heading_color": "Heading color"
   },
   "404": {
     "title": "404",
@@ -34,9 +63,17 @@
   },
   "cart": {
     "checkout": "Checkout",
-    "title": "Cart",
+    "title": "Your cart",
     "update": "Update",
-    "remove": "Remove"
+    "remove": "Remove",
+    "empty": "Your cart is empty",
+    "continue_shopping": "Continue shopping",
+    "summary": "Order summary",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "calculated_at_checkout": "Calculated at checkout",
+    "total": "Total",
+    "quantity": "Quantity"
   },
   "customers": {
     "login": {

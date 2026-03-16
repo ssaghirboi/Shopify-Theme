@@ -1,0 +1,115 @@
+{% liquid
+  assign has_blocks = false
+  if section.blocks.size > 0
+    assign has_blocks = true
+  endif
+%}
+
+<div class="promo-marquee full-width" style="--bg: {{ section.settings.background_color }}; --color: {{ section.settings.text_color }};">
+  <div class="promo-marquee__track">
+    {% capture promo_items %}
+      {% if has_blocks %}
+        {% for block in section.blocks %}
+          <span class="promo-marquee__item" {{ block.shopify_attributes }}>
+            <span class="promo-marquee__dot">&#10022;</span>
+            {{ block.settings.text }}
+          </span>
+        {% endfor %}
+      {% else %}
+        <span class="promo-marquee__item"><span class="promo-marquee__dot">&#10022;</span> {{ 'sections.promo_marquee.item_1' | t }}</span>
+        <span class="promo-marquee__item"><span class="promo-marquee__dot">&#10022;</span> {{ 'sections.promo_marquee.item_2' | t }}</span>
+        <span class="promo-marquee__item"><span class="promo-marquee__dot">&#10022;</span> {{ 'sections.promo_marquee.item_3' | t }}</span>
+        <span class="promo-marquee__item"><span class="promo-marquee__dot">&#10022;</span> {{ 'sections.promo_marquee.item_4' | t }}</span>
+      {% endif %}
+    {% endcapture %}
+    {{ promo_items }}
+    {{ promo_items }}
+    {{ promo_items }}
+  </div>
+</div>
+
+{% stylesheet %}
+  .promo-marquee {
+    background-color: var(--bg);
+    color: var(--color);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 8px 0;
+  }
+
+  .promo-marquee__track {
+    display: inline-flex;
+    animation: promo-scroll 32s linear infinite;
+    will-change: transform;
+  }
+
+  .promo-marquee:hover .promo-marquee__track {
+    animation-play-state: paused;
+  }
+
+  .promo-marquee__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0 40px;
+  }
+
+  .promo-marquee__dot {
+    font-size: 0.45rem;
+    opacity: 0.5;
+  }
+
+  @keyframes promo-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-33.333%); }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Promo marquee",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Promo item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Limited sale event"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#C8102E"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo marquee",
+      "blocks": [
+        { "type": "item", "settings": { "text": "Limited sale event" } },
+        { "type": "item", "settings": { "text": "Free shipping on all orders" } },
+        { "type": "item", "settings": { "text": "Shop now before it ends" } },
+        { "type": "item", "settings": { "text": "Up to 30% off sitewide" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

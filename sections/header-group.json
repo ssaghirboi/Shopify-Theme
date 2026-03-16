@@ -11,38 +11,12 @@
   "type": "header",
   "name": "t:general.header",
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "blocks": {
-        "announcement-1": {
-          "type": "announcement",
-          "settings": {
-            "text": "Free Shipping Across the USA & Canada"
-          }
-        },
-        "announcement-2": {
-          "type": "announcement",
-          "settings": {
-            "text": "Wake Up Better — Sleep Tech That Works"
-          }
-        },
-        "announcement-3": {
-          "type": "announcement",
-          "settings": {
-            "text": "Bundle & Save — Build Your Sleep Kit"
-          }
-        }
-      },
-      "block_order": ["announcement-1", "announcement-2", "announcement-3"],
-      "settings": {}
-    },
     "header": {
       "type": "header",
       "settings": {}
     }
   },
   "order": [
-    "announcement-bar",
     "header"
   ],
 }

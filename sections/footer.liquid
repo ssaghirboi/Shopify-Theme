@@ -1,39 +1,126 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
+<footer class="footer full-width">
+  <div class="footer__inner">
+
+    <div class="footer__brand">
+      <a href="{{ routes.root_url }}" class="footer__store-name">{{ shop.name }}</a>
+      {% if section.settings.tagline != blank %}
+        <p class="footer__tagline">{{ section.settings.tagline }}</p>
+      {% endif %}
+    </div>
+
+    <div class="footer__columns">
+
+      <div class="footer__column">
+        <h3 class="footer__column-heading">{{ 'sections.footer.products_heading' | t }}</h3>
+        <ul class="footer__column-links">
+          {% for product in collections.all.products limit: 6 %}
+            <li><a href="{{ product.url }}">{{ product.title }}</a></li>
+          {% endfor %}
+          <li><a href="{{ routes.all_products_collection_url }}">{{ 'sections.footer.view_all' | t }}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__column">
+        <h3 class="footer__column-heading">{{ 'sections.footer.company_heading' | t }}</h3>
+        <ul class="footer__column-links">
+          {% if section.settings.about_us_page != blank %}
+            <li><a href="{{ pages[section.settings.about_us_page].url }}">{{ 'sections.footer.about_us' | t }}</a></li>
+          {% endif %}
+          {% for link in section.settings.menu.links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
-
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
+  <div class="footer__bottom">
+    <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'sections.footer.rights_reserved' | t }}</p>
   </div>
 </footer>
 
 {% stylesheet %}
-  footer {
+  .footer {
+    background-color: #111827;
+    color: #d1d5db;
+    padding: 60px 24px 24px;
+    margin-top: 0;
+  }
+
+  .footer__inner {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    margin-top: 2rem;
+    gap: 48px;
+    flex-wrap: wrap;
+    padding-bottom: 48px;
+    border-bottom: 1px solid #374151;
   }
-  footer a {
+
+  .footer__brand {
+    max-width: 260px;
+  }
+
+  .footer__store-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
     text-decoration: none;
-    color: var(--color-foreground);
+    display: block;
+    margin-bottom: 12px;
   }
-  footer .footer__links,
-  footer .footer__payment {
+
+  .footer__tagline {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #9ca3af;
+    margin: 0;
+  }
+
+  .footer__columns {
     display: flex;
-    gap: 1rem;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .footer__column-heading {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    margin-bottom: 16px;
+  }
+
+  .footer__column-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer__column-links a {
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+
+  .footer__column-links a:hover {
+    color: #ffffff;
+  }
+
+  .footer__bottom {
+    max-width: 1200px;
+    margin: 24px auto 0;
+    font-size: 0.8rem;
+    color: #6b7280;
+    text-align: center;
   }
 {% endstylesheet %}
 
@@ -42,15 +129,20 @@
   "name": "t:general.footer",
   "settings": [
     {
+      "type": "text",
+      "id": "tagline",
+      "label": "t:labels.tagline",
+      "default": "Quality products for better living."
+    },
+    {
+      "type": "page",
+      "id": "about_us_page",
+      "label": "t:sections.footer.about_us_page"
+    },
+    {
       "type": "link_list",
       "id": "menu",
       "label": "t:labels.menu"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "t:labels.show_payment_icons",
-      "default": true
     }
   ]
 }

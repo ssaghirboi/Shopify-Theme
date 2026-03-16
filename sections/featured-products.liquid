@@ -1,6 +1,6 @@
 {% assign product = section.settings.product %}
 
-<section class="product-highlight">
+<section class="product-highlight" id="featured-products">
   <div class="product-highlight__inner">
     <div class="product-highlight__gallery">
       <div class="product-highlight__main-image">
@@ -41,7 +41,7 @@
       {% endif %}
     </div>
 
-    <div class="product-highlight__details">
+    <div class="product-highlight__details" style="padding-top: 0;">
       {% if section.settings.show_rating %}
         <div class="product-highlight__rating">
           <span class="product-highlight__stars">★★★★★</span>
@@ -93,79 +93,72 @@
       {% if product %}
         <a href="{{ product.url }}" class="product-highlight__view-link">View Full Details →</a>
       {% endif %}
-
-      {% assign bundle_1 = section.settings.bundle_product_1 %}
-      {% assign bundle_2 = section.settings.bundle_product_2 %}
-      {% assign bundle_3 = section.settings.bundle_product_3 %}
-
-      {% if bundle_1 != blank or bundle_2 != blank or bundle_3 != blank %}
-        <div class="bundle">
-          <h3 class="bundle__heading">Buy More and Save</h3>
-
-          {% for i in (1..3) %}
-            {% case i %}
-              {% when 1 %}
-                {% assign bp = bundle_1 %}
-                {% assign savings = section.settings.bundle_savings_1 %}
-              {% when 2 %}
-                {% assign bp = bundle_2 %}
-                {% assign savings = section.settings.bundle_savings_2 %}
-              {% when 3 %}
-                {% assign bp = bundle_3 %}
-                {% assign savings = section.settings.bundle_savings_3 %}
-            {% endcase %}
-
-            {% if bp != blank %}
-              <div class="bundle__card">
-                <div class="bundle__card-left">
-                  <div class="bundle__card-image">
-                    {% if bp.featured_image %}
-                      <img
-                        src="{{ bp.featured_image | image_url: width: 140 }}"
-                        alt="{{ bp.title | escape }}"
-                        width="140"
-                        height="140"
-                        loading="lazy"
-                      >
-                    {% endif %}
-                  </div>
-                  <div class="bundle__card-info">
-                    <p class="bundle__card-name">{{ bp.title }}</p>
-                    {% if bp.variants.size > 1 %}
-                      <div class="bundle__card-variant">
-                        <select class="bundle__card-select" data-bundle-index="{{ i }}">
-                          {% for variant in bp.variants %}
-                            <option value="{{ variant.id }}">{{ variant.title }}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-                    {% endif %}
-                  </div>
-                </div>
-                <div class="bundle__card-right">
-                  <div class="bundle__card-price-wrap">
-                    <span class="bundle__card-price">{{ bp.price | money }}</span>
-                    {% if savings != blank %}
-                      <span class="bundle__card-savings">{{ savings }}</span>
-                    {% elsif bp.compare_at_price > bp.price %}
-                      <span class="bundle__card-savings">SAVE {{ bp.compare_at_price | minus: bp.price | money }}</span>
-                    {% endif %}
-                  </div>
-                  <form method="post" action="/cart/add" class="bundle__card-form">
-                    <input type="hidden" name="id" value="{{ bp.selected_or_first_available_variant.id }}" class="bundle-variant-id-{{ i }}">
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="bundle__card-btn"{% unless bp.available %} disabled{% endunless %}>
-                      {% if bp.available %}Add to Cart{% else %}Sold Out{% endif %}
-                    </button>
-                  </form>
-                </div>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
     </div>
   </div>
+
+  {% assign bundle_1 = section.settings.bundle_product_1 %}
+  {% assign bundle_2 = section.settings.bundle_product_2 %}
+  {% assign bundle_3 = section.settings.bundle_product_3 %}
+
+  {% if bundle_1 != blank or bundle_2 != blank or bundle_3 != blank %}
+    <div class="bundle">
+      <h3 class="bundle__heading">Buy More and Save</h3>
+      <div class="bundle__grid">
+        {% for i in (1..3) %}
+          {% case i %}
+            {% when 1 %}
+              {% assign bp = bundle_1 %}
+              {% assign savings = section.settings.bundle_savings_1 %}
+            {% when 2 %}
+              {% assign bp = bundle_2 %}
+              {% assign savings = section.settings.bundle_savings_2 %}
+            {% when 3 %}
+              {% assign bp = bundle_3 %}
+              {% assign savings = section.settings.bundle_savings_3 %}
+          {% endcase %}
+
+          {% if bp != blank %}
+            <div class="bundle__card">
+              <div class="bundle__card-image">
+                {% if bp.featured_image %}
+                  <img
+                    src="{{ bp.featured_image | image_url: width: 140 }}"
+                    alt="{{ bp.title | escape }}"
+                    width="140"
+                    height="140"
+                    loading="lazy"
+                  >
+                {% endif %}
+              </div>
+              <div class="bundle__card-info">
+                <p class="bundle__card-name">{{ bp.title }}</p>
+                {% if bp.variants.size > 1 %}
+                  <select class="bundle__card-select" data-bundle-index="{{ i }}">
+                    {% for variant in bp.variants %}
+                      <option value="{{ variant.id }}">{{ variant.title }}</option>
+                    {% endfor %}
+                  </select>
+                {% endif %}
+                <span class="bundle__card-price">{{ bp.price | money }}</span>
+                {% if savings != blank %}
+                  <span class="bundle__card-savings">{{ savings }}</span>
+                {% elsif bp.compare_at_price > bp.price %}
+                  <span class="bundle__card-savings">SAVE {{ bp.compare_at_price | minus: bp.price | money }}</span>
+                {% endif %}
+              </div>
+              <form method="post" action="/cart/add" class="bundle__card-form">
+                <input type="hidden" name="id" value="{{ bp.selected_or_first_available_variant.id }}" class="bundle-variant-id-{{ i }}">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="bundle__card-btn"{% unless bp.available %} disabled{% endunless %}>
+                  {% if bp.available %}Add to Cart{% else %}Sold Out{% endif %}
+                </button>
+              </form>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
 </section>
 
 <script>
@@ -180,13 +173,13 @@
 
 {% stylesheet %}
   .product-highlight {
-    padding: 60px 24px 16px;
+    padding: 64px 24px;
   }
 
   .product-highlight__inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    gap: 56px;
     max-width: 1100px;
     margin: 0 auto;
     align-items: start;
@@ -200,8 +193,9 @@
     }
   }
 
+  /* Gallery */
   .product-highlight__main-image {
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
     background: #f5f5f5;
     aspect-ratio: 1 / 1;
@@ -246,21 +240,24 @@
     object-fit: cover;
   }
 
+  /* Details column — consistent 20px gap between every block */
   .product-highlight__details {
-    padding-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
   .product-highlight__rating {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-bottom: 12px;
+    gap: 8px;
   }
 
   .product-highlight__stars {
     color: #f5c518;
     font-size: 18px;
     letter-spacing: 2px;
+    line-height: 1;
   }
 
   .product-highlight__reviews {
@@ -269,37 +266,40 @@
   }
 
   .product-highlight__title {
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
     font-weight: 700;
     line-height: 1.2;
-    margin-bottom: 16px;
     color: #1a1a1a;
+    margin: 0;
   }
 
   .product-highlight__pricing {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 12px;
-    margin-bottom: 20px;
   }
 
   .product-highlight__price {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: #1a1a1a;
+    line-height: 1;
   }
 
   .product-highlight__compare-price {
     font-size: 1.1rem;
     color: #999;
     text-decoration: line-through;
+    line-height: 1;
   }
 
   .product-highlight__description {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #444;
-    margin-bottom: 28px;
+    font-size: 0.975rem;
+    line-height: 1.75;
+    color: #555;
+    margin: 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #efefef;
   }
 
   .product-highlight__button {
@@ -336,64 +336,76 @@
     text-align: center;
     font-size: 13px;
     color: #888;
-    margin-top: 12px;
+    margin: -8px 0 0;
   }
 
   .product-highlight__view-link {
     display: block;
     text-align: center;
-    margin-top: 16px;
     font-size: 14px;
     color: #1a1a1a;
     text-decoration: none;
     font-weight: 500;
     transition: opacity 0.2s;
+    margin-top: -4px;
   }
 
   .product-highlight__view-link:hover {
     opacity: 0.6;
   }
 
-  /* Bundle styles */
+  /* Bundle */
   .bundle {
-    margin-top: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
   }
 
   .bundle__heading {
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.95rem;
+    font-weight: 700;
     color: #1a1a1a;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+
+  .bundle__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 700px) {
+    .bundle__grid {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+      margin: 0 auto;
+    }
   }
 
   .bundle__card {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 16px;
+    text-align: center;
+    padding: 20px 16px;
     border: 2px solid #d4e8d0;
     border-radius: 14px;
-    margin-bottom: 10px;
     background: #fafffe;
     transition: border-color 0.2s, box-shadow 0.2s;
+    gap: 12px;
   }
 
   .bundle__card:hover {
     border-color: #a8d5a0;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-  }
-
-  .bundle__card-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex: 1;
-    min-width: 0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   }
 
   .bundle__card-image {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 10px;
     overflow: hidden;
     flex-shrink: 0;
@@ -407,21 +419,17 @@
   }
 
   .bundle__card-info {
-    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
   }
 
   .bundle__card-name {
     font-size: 14px;
     font-weight: 600;
     color: #1a1a1a;
-    margin-bottom: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .bundle__card-variant {
-    margin-top: 2px;
+    margin: 0;
   }
 
   .bundle__card-select {
@@ -432,21 +440,6 @@
     border-radius: 6px;
     background: #fff;
     cursor: pointer;
-  }
-
-  .bundle__card-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-    flex-shrink: 0;
-    margin-left: 12px;
-  }
-
-  .bundle__card-price-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
   }
 
   .bundle__card-price {
@@ -464,47 +457,34 @@
     border-radius: 4px;
     text-transform: uppercase;
     letter-spacing: 0.3px;
-    white-space: nowrap;
+  }
+
+  .bundle__card-form {
+    width: 100%;
   }
 
   .bundle__card-btn {
-    background: #d4edda;
-    color: #1a1a1a;
-    border: 1px solid #b8d9be;
-    padding: 8px 20px;
-    border-radius: 8px;
+    width: 100%;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s;
     font-family: inherit;
-    white-space: nowrap;
   }
 
   .bundle__card-btn:hover {
-    background: #c1e6c9;
+    background: #333;
   }
 
   .bundle__card-btn[disabled] {
-    background: #eee;
+    background: #ccc;
     color: #999;
-    border-color: #ddd;
     cursor: not-allowed;
-  }
-
-  @media (max-width: 500px) {
-    .bundle__card {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 12px;
-    }
-
-    .bundle__card-right {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      margin-left: 0;
-    }
   }
 {% endstylesheet %}
 

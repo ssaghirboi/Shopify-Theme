@@ -1,0 +1,182 @@
+<div class="reviews" style="--bg: {{ section.settings.background_color }}; --heading-color: {{ section.settings.heading_color }};">
+  <div class="reviews__inner">
+    {% if section.settings.title != blank %}
+      <h2 class="reviews__heading">{{ section.settings.title }}</h2>
+    {% endif %}
+
+    <div class="reviews__grid">
+      {% for block in section.blocks %}
+        <div class="review-card" {{ block.shopify_attributes }}>
+          <div class="review-card__stars">
+            {% assign rating = block.settings.rating %}
+            {% for i in (1..5) %}
+              {% if i <= rating %}
+                <span class="review-card__star review-card__star--filled">&#9733;</span>
+              {% else %}
+                <span class="review-card__star">&#9733;</span>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          {% if block.settings.review_text != blank %}
+            <p class="review-card__text">{{ block.settings.review_text }}</p>
+          {% endif %}
+
+          {% if block.settings.author != blank %}
+            <p class="review-card__author">— {{ block.settings.author }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .reviews {
+    background-color: var(--bg);
+    padding: 60px 24px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .reviews__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .reviews__heading {
+    text-align: center;
+    color: var(--heading-color);
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+
+  .reviews__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .review-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .review-card__stars {
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+  }
+
+  .review-card__star {
+    color: #d1d5db;
+  }
+
+  .review-card__star--filled {
+    color: #f59e0b;
+  }
+
+  .review-card__text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #374151;
+    margin-bottom: 16px;
+  }
+
+  .review-card__author {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.reviews.name",
+  "blocks": [
+    {
+      "type": "review",
+      "name": "t:sections.reviews.blocks.review.name",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "t:sections.reviews.blocks.review.rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "t:sections.reviews.blocks.review.review_text",
+          "default": "This product is absolutely amazing! Highly recommend to everyone."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "t:sections.reviews.blocks.review.author",
+          "default": "Happy Customer"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "What our customers say"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:labels.background_color",
+      "default": "#f9fafb"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "t:labels.heading_color",
+      "default": "#111827"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.reviews.name",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "This product changed my sleep completely. Best purchase I've made all year!",
+            "author": "Sarah M."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_text": "Super comfortable and fast delivery. Will definitely be ordering again.",
+            "author": "James T."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "review_text": "Great quality for the price. I sleep so much better now.",
+            "author": "Priya K."
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}
