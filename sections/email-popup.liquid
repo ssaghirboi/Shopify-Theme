@@ -1,0 +1,288 @@
+{% assign delay_ms = section.settings.delay_ms | times: 1000 %}
+<div id="email-popup" class="email-popup" aria-hidden="true" data-delay="{{ delay_ms }}">
+  <div class="email-popup__overlay" data-close-popup></div>
+  <div class="email-popup__box" role="dialog" aria-modal="true" aria-labelledby="email-popup-heading">
+    <button type="button" class="email-popup__close" data-close-popup aria-label="Close">
+      {{ section.settings.close_text }}
+    </button>
+
+    <div class="email-popup__content">
+      {% if section.settings.heading != blank %}
+        <h2 id="email-popup-heading" class="email-popup__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.subheading != blank %}
+        <p class="email-popup__subheading">{{ section.settings.subheading }}</p>
+      {% endif %}
+
+      {% form 'contact', class: 'email-popup__form', id: 'email-popup-form' %}
+        {% if form.posted_successfully? %}
+          <p class="email-popup__success">{{ section.settings.success_message }}</p>
+        {% else %}
+          <input type="hidden" name="contact[body]" value="Newsletter signup – 10% off">
+          <input
+            type="email"
+            name="contact[email]"
+            class="email-popup__input"
+            placeholder="{{ section.settings.placeholder }}"
+            required
+            autocomplete="email"
+            aria-label="{{ section.settings.placeholder }}"
+          >
+          <button type="submit" class="email-popup__submit">
+            {{ section.settings.button_text }}
+          </button>
+        {% endif %}
+      {% endform %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .email-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    box-sizing: border-box;
+  }
+
+  .email-popup.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .email-popup__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+  }
+
+  .email-popup__box {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    background: var(--color-background);
+    border-radius: 20px;
+    padding: 40px 32px;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
+    transition: transform 0.35s ease;
+  }
+
+  .email-popup.is-visible .email-popup__box {
+    transform: scale(1);
+  }
+
+  .email-popup__close {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: none;
+    border: none;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    text-decoration: underline;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s;
+  }
+
+  .email-popup__close:hover {
+    color: var(--color-foreground);
+  }
+
+  .email-popup__heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-foreground);
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .email-popup__subheading {
+    font-size: 0.95rem;
+    color: var(--color-muted);
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .email-popup__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .email-popup__input {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+
+  .email-popup__input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px rgba(61, 90, 128, 0.2);
+  }
+
+  .email-popup__submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--color-accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+  }
+
+  .email-popup__submit:hover {
+    background: #2c4460;
+  }
+
+  .email-popup__success {
+    font-size: 0.95rem;
+    color: var(--color-muted);
+    text-align: center;
+    margin: 0;
+  }
+{% endstylesheet %}
+
+<script>
+  (function () {
+    function init() {
+      var popup = document.getElementById('email-popup');
+      if (!popup) return;
+
+      if (popup.parentElement && popup.parentElement !== document.body) {
+        document.body.appendChild(popup);
+      }
+
+      var STORAGE_KEY = 'email_popup_closed';
+      var HOURS_HIDDEN = 24 * 7;
+
+      function shouldShow() {
+        try {
+          if (window.location.search.indexOf('show_popup=1') !== -1) return true;
+          var closed = localStorage.getItem(STORAGE_KEY);
+          if (!closed) return true;
+          var when = parseInt(closed, 10);
+          var sevenDaysMs = HOURS_HIDDEN * 60 * 60 * 1000;
+          return (Date.now() - when) > sevenDaysMs;
+        } catch (e) {
+          return true;
+        }
+      }
+
+      function closePopup() {
+        popup.classList.remove('is-visible');
+        popup.setAttribute('aria-hidden', 'true');
+        try {
+          localStorage.setItem(STORAGE_KEY, Date.now().toString());
+        } catch (e) {}
+      }
+
+      function showPopup() {
+        if (!shouldShow()) return;
+        popup.classList.add('is-visible');
+        popup.setAttribute('aria-hidden', 'false');
+      }
+
+      var delay = parseInt(popup.getAttribute('data-delay'), 10);
+      if (!delay || delay < 0) delay = 2000;
+      var timer = setTimeout(showPopup, delay);
+
+      popup.querySelectorAll('[data-close-popup]').forEach(function (el) {
+        el.addEventListener('click', function () {
+          clearTimeout(timer);
+          closePopup();
+        });
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Email popup",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Get 10% off your first order"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Sign up for our newsletter and we'll send you a discount code."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Get my 10% off"
+    },
+    {
+      "type": "text",
+      "id": "close_text",
+      "label": "Close button text",
+      "default": "I want to pay full price"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thanks! Check your email for your discount code."
+    },
+    {
+      "type": "range",
+      "id": "delay_ms",
+      "label": "Show after (seconds)",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2,
+      "unit": "s"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Email popup"
+    }
+  ]
+}
+{% endschema %}

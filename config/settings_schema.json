@@ -79,5 +79,17 @@
         "default": 4
       }
     ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold (amount)",
+        "default": 50,
+        "info": "Used in the cart drawer (e.g. 50 for $50)"
+      }
+    ]
   }
 ]

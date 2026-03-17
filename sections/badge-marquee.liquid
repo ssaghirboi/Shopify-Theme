@@ -34,44 +34,46 @@
 
 {% stylesheet %}
   .badge-marquee {
-    background-color: #fff;
-    color: #1a1a1a;
+    background-color: #f0f0f0;
+    color: var(--color-foreground);
     overflow: hidden;
-    padding: 28px 0;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
+    padding: 40px 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
   }
 
   .badge-marquee__track {
     display: flex;
     white-space: nowrap;
-    animation: badge-scroll 25s linear infinite;
+    animation: badge-scroll 30s linear infinite;
     width: max-content;
   }
 
   .badge-marquee__item {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    font-size: 20px;
-    font-weight: 500;
+    gap: 12px;
+    font-size: 1.25rem;
+    font-weight: 600;
     letter-spacing: 0.5px;
-    padding: 0 1.5rem;
+    padding: 0 2rem;
   }
 
   .badge-marquee__dot {
     display: inline-block;
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
     background-color: #ccc;
     border-radius: 50%;
-    margin-left: 1.5rem;
+    margin-left: 2rem;
     flex-shrink: 0;
   }
 
   .badge-marquee__icon {
     flex-shrink: 0;
     opacity: 0.8;
+    width: 26px;
+    height: 26px;
   }
 
   @keyframes badge-scroll {

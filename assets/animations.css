@@ -1,0 +1,51 @@
+/**
+ * Scroll-in and page transition animations
+ */
+
+/* Reduce motion: respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  .shopify-section--animate,
+  .page-transition-wrap {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .shopify-section--animate.in-view {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Scroll-in: sections fade in without shifting layout */
+.shopify-section--animate {
+  opacity: 0;
+  transform: none;
+  transition:
+    opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.shopify-section--animate.in-view {
+  opacity: 1;
+}
+
+/* Stagger delay for consecutive sections (optional, applied by JS) */
+.shopify-section--animate.in-view.delay-1 { transition-delay: 0.05s; }
+.shopify-section--animate.in-view.delay-2 { transition-delay: 0.1s; }
+.shopify-section--animate.in-view.delay-3 { transition-delay: 0.15s; }
+.shopify-section--animate.in-view.delay-4 { transition-delay: 0.2s; }
+.shopify-section--animate.in-view.delay-5 { transition-delay: 0.25s; }
+
+/* Page load: content fades in */
+.page-transition-wrap {
+  opacity: 0;
+  transition: opacity 0.35s ease-out;
+}
+
+body.page-ready .page-transition-wrap {
+  opacity: 1;
+}
+
+body.page-exit .page-transition-wrap {
+  opacity: 0;
+  transition: opacity 0.25s ease-in;
+}

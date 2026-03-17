@@ -1,0 +1,185 @@
+{% comment %}
+  Dynamic free shipping bar – shows amount left until threshold and updates in real time.
+  Configure threshold in Theme editor (this section when used in layout).
+{% endcomment %}
+{% assign threshold_cents = section.settings.threshold | times: 100 %}
+<div
+  class="free-shipping-bar full-width"
+  id="free-shipping-bar"
+  data-threshold-cents="{{ threshold_cents }}"
+  data-message-under="{{ section.settings.message_under | escape }}"
+  data-message-over="{{ section.settings.message_over | escape }}"
+  data-message-empty="{{ section.settings.message_empty | escape }}"
+  data-currency-symbol="{{ cart.currency.symbol | escape }}"
+  style="--bar-bg: {{ section.settings.background_color }}; --bar-text: {{ section.settings.text_color }};"
+  aria-live="polite"
+>
+  <div class="free-shipping-bar__inner">
+    <p class="free-shipping-bar__text" id="free-shipping-bar-text">
+      {{ section.settings.message_under | replace: '$amount', section.settings.threshold | money_without_currency }}
+    </p>
+    {% if section.settings.show_progress %}
+      <div class="free-shipping-bar__track">
+        <div class="free-shipping-bar__fill" id="free-shipping-bar-fill" style="width: 0%;"></div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .free-shipping-bar {
+    background: var(--bar-bg);
+    color: var(--bar-text);
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .free-shipping-bar__inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .free-shipping-bar__text {
+    margin: 0 0 8px 0;
+  }
+
+  .free-shipping-bar__track {
+    height: 4px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .free-shipping-bar__fill {
+    height: 100%;
+    background: currentColor;
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .free-shipping-bar.is-unlocked .free-shipping-bar__fill {
+    width: 100% !important;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    var bar = document.getElementById('free-shipping-bar');
+    var textEl = document.getElementById('free-shipping-bar-text');
+    var fillEl = document.getElementById('free-shipping-bar-fill');
+    if (!bar || !textEl) return;
+
+    var thresholdCents = parseInt(bar.dataset.thresholdCents, 10) || 5000;
+    var messageUnder = bar.dataset.messageUnder || "You're only $amount away from free shipping!";
+    var messageOver = bar.dataset.messageOver || "You've unlocked free shipping!";
+    var messageEmpty = bar.dataset.messageEmpty || "Free shipping on orders over $amount!";
+    var currencySymbol = bar.dataset.currencySymbol || '$';
+
+    function formatMoney(cents) {
+      var amount = (cents / 100).toFixed(2);
+      return currencySymbol + amount.replace(/\.?0+$/, '');
+    }
+
+    function updateBar(cart) {
+      var total = cart.total_price || 0;
+      var itemCount = cart.item_count || 0;
+      var remaining = Math.max(0, thresholdCents - total);
+      var thresholdFormatted = formatMoney(thresholdCents);
+
+      if (itemCount === 0) {
+        bar.classList.remove('is-unlocked');
+        textEl.textContent = messageEmpty.replace(/\$amount|\{\{ amount \}\}/g, thresholdFormatted);
+        if (fillEl) fillEl.style.width = '0%';
+        return;
+      }
+
+      if (total >= thresholdCents) {
+        bar.classList.add('is-unlocked');
+        textEl.textContent = messageOver;
+        if (fillEl) fillEl.style.width = '100%';
+      } else {
+        bar.classList.remove('is-unlocked');
+        var amountStr = formatMoney(remaining);
+        textEl.textContent = messageUnder.replace(/\$amount|\{\{ amount \}\}/g, amountStr);
+        if (fillEl) {
+          var pct = Math.min(100, (total / thresholdCents) * 100);
+          fillEl.style.width = pct + '%';
+        }
+      }
+    }
+
+    function fetchCart() {
+      fetch('/cart.js')
+        .then(function (r) { return r.json(); })
+        .then(updateBar)
+        .catch(function () {});
+    }
+
+    fetchCart();
+
+    document.addEventListener('cart:refresh', fetchCart);
+    if (window.Shopify && window.Shopify.theme) {
+      setInterval(fetchCart, 4000);
+    } else {
+      setInterval(fetchCart, 5000);
+    }
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Free shipping bar",
+  "settings": [
+    {
+      "type": "number",
+      "id": "threshold",
+      "label": "Free shipping threshold (amount)",
+      "default": 50,
+      "info": "Minimum cart total in your store currency (e.g. 50 for $50)"
+    },
+    {
+      "type": "text",
+      "id": "message_empty",
+      "label": "Message when cart is empty",
+      "default": "Free shipping on orders over $amount!"
+    },
+    {
+      "type": "text",
+      "id": "message_under",
+      "label": "Message when under threshold",
+      "default": "You're only $amount away from free shipping!"
+    },
+    {
+      "type": "text",
+      "id": "message_over",
+      "label": "Message when threshold reached",
+      "default": "You've unlocked free shipping!"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "Show progress bar",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#e8f5e9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#1b5e20"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Free shipping bar"
+    }
+  ]
+}
+{% endschema %}

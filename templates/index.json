@@ -12,6 +12,7 @@
     "hero": {
       "type": "hero",
       "settings": {
+        "shopify_video": "shopify://files/videos/Generating_Macro_Video_of_Wristband.mp4",
         "video_url": "",
         "subtitle": "Sleep Tech for a Better Morning",
         "title": "Wake Up to Your Best Self",
@@ -45,12 +46,36 @@
             "text": "Thousands Sold",
             "icon": "bag"
           }
+        },
+        "badge-4": {
+          "type": "badge",
+          "settings": {
+            "text": "Somnologist Approved",
+            "icon": "star"
+          }
+        },
+        "badge-5": {
+          "type": "badge",
+          "settings": {
+            "text": "Safety Assured",
+            "icon": "shield"
+          }
+        },
+        "badge-6": {
+          "type": "badge",
+          "settings": {
+            "text": "100 Night Guarantee",
+            "icon": "heart"
+          }
         }
       },
       "block_order": [
         "badge-1",
         "badge-2",
-        "badge-3"
+        "badge-3",
+        "badge-4",
+        "badge-5",
+        "badge-6"
       ],
       "settings": {}
     },
@@ -64,25 +89,145 @@
     "featured-products": {
       "type": "featured-products",
       "settings": {
-        "product": "",
+        "product": "therizeband",
         "fallback_title": "Silent Alarm Wristband",
         "custom_description": "Wake up gently with a silent vibrating alarm that won't disturb your partner. Lightweight, comfortable, and designed for the deepest sleepers.",
         "button_text": "Add To Cart",
         "subtext": "Free shipping across USA & Canada",
         "show_rating": true,
-        "review_count": "312"
-      }
-    },
-    "bundle-offers": {
-      "type": "bundle-offers",
-      "settings": {
-        "heading": "Buy More and Save",
-        "bundle_product_1": "wakestrips",
+        "review_count": "312",
+        "bundle_product_1": "therizemask",
         "bundle_savings_1": "",
         "bundle_product_2": "wakestrips",
         "bundle_savings_2": "",
-        "bundle_product_3": "therizemask",
+        "bundle_product_3": "therizeband",
         "bundle_savings_3": ""
+      }
+    },
+    "product-features": {
+      "type": "product-features",
+      "blocks": {
+        "feature-1": {
+          "type": "feature",
+          "settings": {
+            "heading": "Vibrates gently to wake you up",
+            "description": "A silent vibration alarm on your wrist replaces jarring sounds for a calm, natural wake-up."
+          }
+        },
+        "feature-2": {
+          "type": "feature",
+          "settings": {
+            "heading": "Reduces early cortisol spikes",
+            "description": "No sudden shock to your system — wake gradually so your body skips the stress response."
+          }
+        },
+        "feature-3": {
+          "type": "feature",
+          "settings": {
+            "heading": "Replaces loud, blaring alarms",
+            "description": "Ditch the traditional alarm clock. Your partner, kids, and roommates will thank you."
+          }
+        },
+        "feature-4": {
+          "type": "feature",
+          "settings": {
+            "heading": "Improves your sleep quality",
+            "description": "Knowing your alarm is silent lets you relax deeper — no anxiety about waking the house."
+          }
+        },
+        "feature-5": {
+          "type": "feature",
+          "settings": {
+            "heading": "Lightweight and comfortable",
+            "description": "Designed to be worn all night without discomfort. You'll forget it's even there."
+          }
+        }
+      },
+      "block_order": [
+        "feature-1",
+        "feature-2",
+        "feature-3",
+        "feature-4",
+        "feature-5"
+      ],
+      "settings": {
+        "title": "How TheRizeBand works"
+      }
+    },
+    "review-carousel": {
+      "type": "review-carousel",
+      "blocks": {
+        "review-1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "Best sleep I've ever had",
+            "body": "I was skeptical at first, but this product completely changed my sleep. I wake up refreshed every single morning now. Can't recommend it enough.",
+            "author": "Sarah M.",
+            "verified": true
+          }
+        },
+        "review-2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "A total game changer",
+            "body": "Bought this for my husband and he loves it. No more loud alarms waking the whole house. The silent vibration is gentle but effective.",
+            "author": "James T.",
+            "verified": true
+          }
+        },
+        "review-3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "Worth every penny",
+            "body": "Fast shipping, beautiful packaging, and the product itself is incredible. I've already recommended it to all my friends.",
+            "author": "Priya K.",
+            "verified": true
+          }
+        },
+        "review-4": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "heading": "Great quality, great results",
+            "body": "I sleep so much better now. The nose strips are comfortable and the mask blocks out all light. Exactly what I needed.",
+            "author": "David L.",
+            "verified": true
+          }
+        },
+        "review-5": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "My mornings are completely different",
+            "body": "I used to dread mornings. Now I actually feel rested and energized. This is the best purchase I've made for my health.",
+            "author": "Emily R.",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review-1",
+        "review-2",
+        "review-3",
+        "review-4",
+        "review-5"
+      ],
+      "settings": {
+        "title": "Loved by thousands",
+        "subtitle": "See what our customers are saying",
+        "background_color": "#ffffff"
+      }
+    },
+    "banner-cta": {
+      "type": "banner-cta",
+      "settings": {
+        "title": "Ready to wake up better?",
+        "description": "Join thousands who've ditched the loud alarm and switched to a smarter, calmer morning. Your best sleep starts tonight.",
+        "button_text": "Shop now",
+        "button_url": "/collections/all"
       }
     }
   },
@@ -91,6 +236,8 @@
     "badge-marquee",
     "text-block",
     "featured-products",
-    "bundle-offers"
+    "review-carousel",
+    "product-features",
+    "banner-cta"
   ]
 }

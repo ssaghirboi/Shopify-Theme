@@ -1,0 +1,148 @@
+<section class="banner-cta full-width">
+  {% if section.settings.image %}
+    <img
+      class="banner-cta__bg"
+      src="{{ section.settings.image | image_url: width: 2000 }}"
+      alt="{{ section.settings.title | escape }}"
+      loading="lazy"
+      width="2000"
+      height="600"
+    >
+  {% endif %}
+
+  <div class="banner-cta__overlay"></div>
+
+  <div class="banner-cta__content">
+    {% if section.settings.title != blank %}
+      <h2 class="banner-cta__title">{{ section.settings.title }}</h2>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <p class="banner-cta__description">{{ section.settings.description }}</p>
+    {% endif %}
+
+    {% if section.settings.button_text != blank %}
+      <a href="{{ section.settings.button_url }}" class="banner-cta__button">
+        {{ section.settings.button_text }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .banner-cta {
+    position: relative;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #1a1a1a;
+  }
+
+  .banner-cta__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .banner-cta__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+
+  .banner-cta__content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 48px 24px;
+    max-width: 700px;
+  }
+
+  .banner-cta__title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .banner-cta__description {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 32px;
+  }
+
+  .banner-cta__button {
+    display: inline-block;
+    background: #ffffff;
+    color: var(--color-accent);
+    text-decoration: none;
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .banner-cta__button:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.banner_cta.name",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.banner_cta.image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "Ready to wake up better?"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:sections.banner_cta.description",
+      "default": "Join thousands who've ditched the loud alarm and switched to a smarter, calmer morning. Your best sleep starts tonight."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:sections.banner_cta.button_text",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "t:sections.banner_cta.button_url"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.banner_cta.name"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

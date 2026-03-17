@@ -36,6 +36,39 @@
           "author": "Customer name"
         }
       }
+    },
+    "banner_cta": {
+      "name": "Banner call to action",
+      "image": "Background image",
+      "description": "Description",
+      "button_text": "Button text",
+      "button_url": "Button link"
+    },
+    "product_features": {
+      "name": "Product features",
+      "image": "Product image",
+      "blocks": {
+        "feature": {
+          "name": "Feature",
+          "heading": "Heading",
+          "description": "Description"
+        }
+      }
+    },
+    "review_carousel": {
+      "name": "Review carousel",
+      "subtitle": "Subtitle",
+      "verified": "Verified buyer",
+      "blocks": {
+        "review": {
+          "name": "Review",
+          "rating": "Star rating",
+          "heading": "Review headline",
+          "body": "Review text",
+          "author": "Customer name",
+          "verified": "Verified buyer"
+        }
+      }
     }
   },
   "labels": {

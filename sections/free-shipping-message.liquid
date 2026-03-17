@@ -1,0 +1,66 @@
+{% comment %}
+  Static free shipping message for non-cart pages (e.g. header/layout).
+  Shows a single line like "Free shipping on orders over $50".
+  Hidden on cart page where the dynamic free-shipping-bar is shown.
+{% endcomment %}
+{% unless template == 'cart' %}
+  {% assign amount = section.settings.threshold | money %}
+  <div class="free-shipping-message full-width" style="--msg-bg: {{ section.settings.background_color }}; --msg-text: {{ section.settings.text_color }};">
+    <p class="free-shipping-message__text">{{ section.settings.message | replace: '$amount', amount }}</p>
+  </div>
+{% endunless %}
+
+{% stylesheet %}
+  .free-shipping-message {
+    margin: 0;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    background: var(--msg-bg);
+    color: var(--msg-text);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .free-shipping-message__text {
+    margin: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Free shipping message",
+  "settings": [
+    {
+      "type": "number",
+      "id": "threshold",
+      "label": "Free shipping threshold (amount)",
+      "default": 50,
+      "info": "Minimum order amount in your store currency (e.g. 50 for $50)"
+    },
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Message",
+      "default": "Free shipping on orders over $amount"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#2e7d32"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Free shipping message"
+    }
+  ]
+}
+{% endschema %}

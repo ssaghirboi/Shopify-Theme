@@ -1,0 +1,417 @@
+{% if section.blocks.size > 0 %}
+<div class="review-carousel" style="--bg: {{ section.settings.background_color }};">
+  <div class="review-carousel__inner">
+    {% if section.settings.title != blank %}
+      <div class="review-carousel__header">
+        <h2 class="review-carousel__title">{{ section.settings.title }}</h2>
+        {% if section.settings.subtitle != blank %}
+          <p class="review-carousel__subtitle">{{ section.settings.subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="review-carousel__track-wrapper">
+      <button class="review-carousel__arrow review-carousel__arrow--prev" aria-label="Previous review">&#8249;</button>
+
+      <div class="review-carousel__track" data-carousel>
+        {% for block in section.blocks %}
+          <div class="review-carousel__slide{% if forloop.first %} review-carousel__slide--active{% endif %}" data-slide="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            <div class="review-carousel__stars">
+              {% for i in (1..5) %}
+                {% if i <= block.settings.rating %}
+                  <span class="review-carousel__star review-carousel__star--filled">&#9733;</span>
+                {% else %}
+                  <span class="review-carousel__star">&#9733;</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            {% if block.settings.heading != blank %}
+              <h3 class="review-carousel__review-heading">"{{ block.settings.heading }}"</h3>
+            {% endif %}
+
+            {% if block.settings.body != blank %}
+              <p class="review-carousel__body">{{ block.settings.body }}</p>
+            {% endif %}
+
+            <div class="review-carousel__author">
+              <span class="review-carousel__author-name">{{ block.settings.author }}</span>
+              {% if block.settings.verified %}
+                <span class="review-carousel__verified">&#10003; {{ 'sections.review_carousel.verified' | t }}</span>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <button class="review-carousel__arrow review-carousel__arrow--next" aria-label="Next review">&#8250;</button>
+    </div>
+
+    <div class="review-carousel__dots" data-dots>
+      {% for block in section.blocks %}
+        <button class="review-carousel__dot{% if forloop.first %} review-carousel__dot--active{% endif %}" data-dot="{{ forloop.index0 }}" aria-label="Go to review {{ forloop.index }}"></button>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% stylesheet %}
+  .review-carousel {
+    background: #ffffff;
+    padding: 56px 24px;
+    overflow: hidden;
+  }
+
+  .review-carousel__inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .review-carousel__header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .review-carousel__title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    color: var(--color-foreground);
+    margin-bottom: 8px;
+  }
+
+  .review-carousel__subtitle {
+    font-size: 1rem;
+    color: #888;
+    margin: 0;
+  }
+
+  .review-carousel__track-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .review-carousel__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .review-carousel__arrow:hover {
+    background: #f5f5f5;
+    border-color: #ccc;
+  }
+
+  .review-carousel__arrow--prev {
+    left: -56px;
+  }
+
+  .review-carousel__arrow--next {
+    right: -56px;
+  }
+
+  @media (max-width: 860px) {
+    .review-carousel__arrow--prev { left: -8px; }
+    .review-carousel__arrow--next { right: -8px; }
+    .review-carousel__arrow {
+      width: 36px;
+      height: 36px;
+      font-size: 20px;
+    }
+  }
+
+  .review-carousel__track {
+    position: relative;
+    width: 100%;
+    min-height: 260px;
+  }
+
+  .review-carousel__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    pointer-events: none;
+    text-align: center;
+    background: var(--color-accent-light);
+    border-radius: 20px;
+    padding: 48px 40px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
+  }
+
+  .review-carousel__slide--active {
+    position: relative;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  .review-carousel__stars {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .review-carousel__star {
+    font-size: 1.6rem;
+    color: #d4d4d4;
+    line-height: 1;
+  }
+
+  .review-carousel__star--filled {
+    color: #f5c518;
+  }
+
+  .review-carousel__review-heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-foreground);
+    line-height: 1.35;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .review-carousel__body {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-muted);
+    margin-bottom: 28px;
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .review-carousel__author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .review-carousel__author-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+
+  .review-carousel__verified {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #16a34a;
+    background: #dcfce7;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .review-carousel__dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  .review-carousel__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: #d4d4d4;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.25s, transform 0.25s;
+  }
+
+  .review-carousel__dot--active {
+    background: #1a1a1a;
+    transform: scale(1.2);
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    var carousels = document.querySelectorAll('.review-carousel');
+    carousels.forEach(function (carousel) {
+      var slides = carousel.querySelectorAll('[data-slide]');
+      var dots = carousel.querySelectorAll('[data-dot]');
+      var prevBtn = carousel.querySelector('.review-carousel__arrow--prev');
+      var nextBtn = carousel.querySelector('.review-carousel__arrow--next');
+      var current = 0;
+      var total = slides.length;
+      var autoplayTimer;
+
+      function goTo(index) {
+        slides[current].classList.remove('review-carousel__slide--active');
+        dots[current].classList.remove('review-carousel__dot--active');
+        current = (index + total) % total;
+        slides[current].classList.add('review-carousel__slide--active');
+        dots[current].classList.add('review-carousel__dot--active');
+      }
+
+      function startAutoplay() {
+        autoplayTimer = setInterval(function () { goTo(current + 1); }, 5000);
+      }
+
+      function resetAutoplay() {
+        clearInterval(autoplayTimer);
+        startAutoplay();
+      }
+
+      prevBtn.addEventListener('click', function () { goTo(current - 1); resetAutoplay(); });
+      nextBtn.addEventListener('click', function () { goTo(current + 1); resetAutoplay(); });
+      dots.forEach(function (dot) {
+        dot.addEventListener('click', function () { goTo(parseInt(this.dataset.dot)); resetAutoplay(); });
+      });
+
+      startAutoplay();
+    });
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.review_carousel.name",
+  "blocks": [
+    {
+      "type": "review",
+      "name": "t:sections.review_carousel.blocks.review.name",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "t:sections.review_carousel.blocks.review.rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.review_carousel.blocks.review.heading",
+          "default": "Absolutely love this product"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "t:sections.review_carousel.blocks.review.body",
+          "default": "This has completely changed my morning routine. I fall asleep faster and wake up feeling truly rested."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "t:sections.review_carousel.blocks.review.author",
+          "default": "Happy Customer"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "t:sections.review_carousel.blocks.review.verified",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "Loved by thousands"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "t:sections.review_carousel.subtitle",
+      "default": "See what our customers are saying"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:labels.background_color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.review_carousel.name",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "Best sleep I've ever had",
+            "body": "I was skeptical at first, but this product completely changed my sleep. I wake up refreshed every single morning now. Can't recommend it enough.",
+            "author": "Sarah M.",
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "A total game changer",
+            "body": "Bought this for my husband and he loves it. No more loud alarms waking the whole house. The silent vibration is gentle but effective.",
+            "author": "James T.",
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "Worth every penny",
+            "body": "Fast shipping, beautiful packaging, and the product itself is incredible. I've already recommended it to all my friends.",
+            "author": "Priya K.",
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "heading": "Great quality, great results",
+            "body": "I sleep so much better now. The nose strips are comfortable and the mask blocks out all light. Exactly what I needed.",
+            "author": "David L.",
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "My mornings are completely different",
+            "body": "I used to dread mornings. Now I actually feel rested and energized. This is the best purchase I've made for my health.",
+            "author": "Emily R.",
+            "verified": true
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

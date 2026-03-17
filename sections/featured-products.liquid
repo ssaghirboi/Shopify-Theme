@@ -1,6 +1,7 @@
 {% assign product = section.settings.product %}
 
 <section class="product-highlight" id="featured-products">
+  <h2 class="product-highlight__section-title">{{ section.settings.section_title | default: 'Our Bestseller' }}</h2>
   <div class="product-highlight__inner">
     <div class="product-highlight__gallery">
       <div class="product-highlight__main-image">
@@ -173,14 +174,22 @@
 
 {% stylesheet %}
   .product-highlight {
-    padding: 64px 24px;
+    padding: 56px 40px;
+  }
+
+  .product-highlight__section-title {
+    text-align: center;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--color-foreground);
+    margin: 0 0 40px 0;
   }
 
   .product-highlight__inner {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 56px;
-    max-width: 1100px;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 64px;
+    max-width: 1400px;
     margin: 0 auto;
     align-items: start;
   }
@@ -189,7 +198,7 @@
     .product-highlight__inner {
       grid-template-columns: 1fr;
       gap: 32px;
-      max-width: 550px;
+      max-width: 100%;
     }
   }
 
@@ -231,7 +240,7 @@
 
   .product-highlight__thumb--active,
   .product-highlight__thumb:hover {
-    border-color: #1a1a1a;
+    border-color: var(--color-accent);
   }
 
   .product-highlight__thumb img {
@@ -269,7 +278,7 @@
     font-size: clamp(1.5rem, 3vw, 2.1rem);
     font-weight: 700;
     line-height: 1.2;
-    color: #1a1a1a;
+    color: var(--color-foreground);
     margin: 0;
   }
 
@@ -282,7 +291,7 @@
   .product-highlight__price {
     font-size: 1.6rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--color-foreground);
     line-height: 1;
   }
 
@@ -296,17 +305,17 @@
   .product-highlight__description {
     font-size: 0.975rem;
     line-height: 1.75;
-    color: #555;
+    color: var(--color-muted);
     margin: 0;
     padding-bottom: 4px;
-    border-bottom: 1px solid #efefef;
+    border-bottom: 1px solid var(--color-border);
   }
 
   .product-highlight__button {
     display: block;
     width: 100%;
     text-align: center;
-    background-color: #1a1a1a;
+    background-color: var(--color-accent);
     color: #fff;
     padding: 16px 32px;
     font-size: 15px;
@@ -322,7 +331,7 @@
   }
 
   .product-highlight__button:hover {
-    background-color: #333;
+    background-color: #2c4460;
     transform: translateY(-2px);
   }
 
@@ -343,7 +352,7 @@
     display: block;
     text-align: center;
     font-size: 14px;
-    color: #1a1a1a;
+    color: var(--color-accent);
     text-decoration: none;
     font-weight: 500;
     transition: opacity 0.2s;
@@ -465,7 +474,7 @@
 
   .bundle__card-btn {
     width: 100%;
-    background: #1a1a1a;
+    background: var(--color-accent);
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -478,7 +487,7 @@
   }
 
   .bundle__card-btn:hover {
-    background: #333;
+    background: #2c4460;
   }
 
   .bundle__card-btn[disabled] {
@@ -492,6 +501,12 @@
 {
   "name": "Product Highlight",
   "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section title",
+      "default": "Our Bestseller"
+    },
     {
       "type": "header",
       "content": "Product"

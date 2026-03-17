@@ -9,12 +9,17 @@
  */
 {
   "sections": {
+    "free_shipping_bar": {
+      "type": "free-shipping-bar",
+      "settings": {}
+    },
     "main": {
       "type": "cart",
       "settings": {}
     }
   },
   "order": [
+    "free_shipping_bar",
     "main"
   ]
 }

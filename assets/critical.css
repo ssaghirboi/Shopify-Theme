@@ -115,3 +115,16 @@ body {
 .shopify-section > .full-width {
   grid-column: 1 / -1;
 }
+
+/* Sticky header wrapper — hides on scroll down, shows on scroll up */
+.site-header-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.site-header-wrap--hidden {
+  transform: translateY(-100%);
+}
