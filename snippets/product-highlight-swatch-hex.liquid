@@ -1,0 +1,42 @@
+{% doc %}
+  Resolves a CSS hex for a product highlight color swatch.
+
+  Uses variant metafield `custom.swatch_hex` when set, otherwise maps common color names.
+
+  @param {variant} variant - Product variant (for metafield)
+  @param {string} [fallback_label] - Option value / label for name-based fallback
+{% enddoc %}
+
+{% liquid
+  assign hex = variant.metafields.custom.swatch_hex.value | strip
+  if hex == blank
+    assign l = fallback_label | default: variant.title | downcase | strip
+    case l
+      when 'black'
+        assign hex = '#1a1a1a'
+      when 'white'
+        assign hex = '#f4f4f4'
+      when 'rose gold'
+        assign hex = '#b76e79'
+      when 'rose-gold'
+        assign hex = '#b76e79'
+      when 'pink'
+        assign hex = '#e8b4bc'
+      when 'lavender'
+        assign hex = '#c8bed9'
+      when 'cream'
+        assign hex = '#f2ebe3'
+      when 'navy'
+        assign hex = '#1e3a5f'
+      when 'neon'
+        assign hex = '#b8d4c8'
+      when 'light green'
+        assign hex = '#b8d4c8'
+      when 'mint'
+        assign hex = '#b8d4c8'
+      else
+        assign hex = '#a8a8a8'
+    endcase
+  endif
+%}
+{{- hex -}}

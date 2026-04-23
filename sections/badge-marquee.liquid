@@ -88,6 +88,29 @@
   .badge-marquee:hover .badge-marquee__track {
     animation-play-state: paused;
   }
+
+  @media (max-width: 749px) {
+    .badge-marquee {
+      padding: 14px 0;
+    }
+
+    .badge-marquee__item {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      gap: 8px;
+      padding: 0 1.15rem;
+    }
+
+    .badge-marquee__icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .badge-marquee__dot {
+      margin-left: 1.15rem;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

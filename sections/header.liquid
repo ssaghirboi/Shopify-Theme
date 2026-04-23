@@ -18,7 +18,12 @@
       </shopify-account>
     {% endif %}
 
-    <a href="{{ routes.cart_url }}" class="header__cart">
+    <a
+      href="#"
+      class="header__cart"
+      data-open-cart-drawer
+      aria-label="{{ 'cart.open_cart' | t }}"
+    >
       {% if cart.item_count > 0 %}
         <span class="header__cart-count">{{ cart.item_count }}</span>
       {% endif %}
@@ -37,6 +42,19 @@
     background: var(--color-background);
     border-bottom: 1px solid var(--color-border);
     z-index: 30;
+  }
+
+  @media (max-width: 749px) {
+    header {
+      padding: 0 16px;
+      height: 4.5rem;
+    }
+
+    .header__logo {
+      font-size: clamp(0.85rem, 3.2vw, 1.15rem);
+      letter-spacing: 0.18em;
+      max-width: min(11rem, 46vw);
+    }
   }
 
 
@@ -73,6 +91,9 @@
     text-transform: uppercase;
     white-space: nowrap;
     line-height: 1;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .header__logo:hover {

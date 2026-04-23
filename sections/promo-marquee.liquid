@@ -69,6 +69,19 @@
     0% { transform: translateX(0); }
     100% { transform: translateX(-33.333%); }
   }
+
+  @media (max-width: 749px) {
+    .promo-marquee {
+      padding: 6px 0;
+    }
+
+    .promo-marquee__item {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      gap: 8px;
+      padding: 0 26px;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

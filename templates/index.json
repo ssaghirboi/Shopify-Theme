@@ -90,18 +90,19 @@
       "type": "featured-products",
       "settings": {
         "product": "therizeband",
+        "mask_product": "therizemask",
         "fallback_title": "Silent Alarm Wristband",
         "custom_description": "Wake up gently with a silent vibrating alarm that won't disturb your partner. Lightweight, comfortable, and designed for the deepest sleepers.",
         "button_text": "Add To Cart",
         "subtext": "Free shipping across USA & Canada",
         "show_rating": true,
         "review_count": "312",
-        "bundle_product_1": "therizemask",
-        "bundle_savings_1": "",
-        "bundle_product_2": "wakestrips",
-        "bundle_savings_2": "",
-        "bundle_product_3": "therizeband",
-        "bundle_savings_3": ""
+        "rating_value": "4.7",
+        "bundle_solo_title": "1 RIZEBAND",
+        "bundle_duo_title": "1 RIZEBAND + 1 Plush Eye Mask",
+        "bundle_couples_title": "2 RIZEBANDs + 2 Plush Eye Masks",
+        "bundle_duo_savings_percent": 10,
+        "bundle_couples_savings_percent": 15
       }
     },
     "product-features": {

@@ -1,0 +1,21 @@
+{% comment %}
+  /cart is not used as a page — send shoppers home and open the AJAX cart drawer.
+{% endcomment %}
+{% assign redirect_url = routes.root_url | append: '?open_cart=true' %}
+<div class="cart-redirect" style="min-height: 50vh; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+  <p class="cart-redirect__msg">{{ 'cart.redirecting' | t }}</p>
+</div>
+<script>
+  window.location.replace({{ redirect_url | json }});
+</script>
+<noscript>
+  <p><a href="{{ redirect_url }}">{{ 'cart.redirecting' | t }}</a></p>
+</noscript>
+
+{% schema %}
+{
+  "name": "Cart redirect",
+  "settings": [],
+  "presets": [{ "name": "Cart redirect" }]
+}
+{% endschema %}

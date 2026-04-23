@@ -30,6 +30,24 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  @media (max-width: 749px) {
+    .text-block {
+      padding: 26px 16px 28px;
+      max-width: 100%;
+    }
+
+    .text-block__title {
+      font-size: clamp(1.65rem, 6.5vw, 2.35rem);
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    .text-block__description {
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
